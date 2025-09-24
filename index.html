@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suraksha - Disaster Preparedness Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Custom styles to complement Tailwind CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Tailwind's gray-50 */
+        }
+
+        /* Page transition effect */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Custom card hover effect */
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Main Application Container -->
+    <div id="app">
+
+        <!-- ===== LOGIN PAGE ===== -->
+        <div id="login-page" class="page active">
+            <div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+                <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+                    <i class="fas fa-shield-halved text-5xl text-blue-600 mx-auto"></i>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Suraksha Platform
+                    </h2>
+                    <p class="mt-2 text-center text-sm text-gray-600">
+                        Your Campus Safety & Disaster Preparedness Hub
+                    </p>
+                </div>
+        
+                <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                    <div class="bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+                        <div class="space-y-6">
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">
+                                    Email address / User ID
+                                </label>
+                                <div class="mt-1">
+                                    <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="student@example.com">
+                                </div>
+                            </div>
+        
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700">
+                                    Password
+                                </label>
+                                <div class="mt-1">
+                                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="password">
+                                </div>
+                            </div>
+        
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                                        Remember me
+                                    </label>
+                                </div>
+        
+                                <div class="text-sm">
+                                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                                        Forgot your password?
+                                    </a>
+                                </div>
+                            </div>
+        
+                            <div>
+                                <button type="button" onclick="login('student')" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Sign in as Student
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" onclick="login('admin')" class="w-full flex justify-center py-2 px-4 border border-blue-600 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Sign in as Admin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area (Post-Login) -->
+        <div id="main-content" class="hidden">
+            <!-- Header/Navbar -->
+            <nav class="bg-white shadow-md sticky top-0 z-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-halved text-2xl text-blue-600"></i>
+                            <span class="ml-3 font-bold text-xl text-gray-800">Suraksha</span>
+                        </div>
+                        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                            <a href="#" onclick="navigateTo('dashboard-page')" class="nav-link border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Dashboard</a>
+                            <a href="#" onclick="navigateTo('modules-page')" class="nav-link border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Modules</a>
+                            <a href="#" onclick="navigateTo('drills-page')" class="nav-link border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Virtual Drills</a>
+                            <a href="#" onclick="navigateTo('admin-dashboard-page')" id="admin-nav-link" class="nav-link border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Admin View</a>
+                        </div>
+                        <div class="flex items-center">
+                            <button onclick="logout()" class="ml-4 bg-red-500 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-red-600 transition">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <main>
+                <!-- ===== STUDENT DASHBOARD PAGE ===== -->
+                <div id="dashboard-page" class="page">
+                    <div class="bg-blue-600 text-white py-8">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <h1 class="text-3xl font-bold">Welcome, Student!</h1>
+                            <p class="mt-1">Your central hub for disaster preparedness.</p>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <!-- Regional Alert -->
+                         <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-6" role="alert">
+                            <div class="flex">
+                                <div class="py-1"><i class="fas fa-triangle-exclamation text-yellow-500 mr-3"></i></div>
+                                <div>
+                                    <p class="font-bold">Regional Alert: Chittorgarh, Rajasthan</p>
+                                    <p class="text-sm">Moderate heatwave warning for the next 48 hours. Stay hydrated and avoid prolonged sun exposure.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Learning Modules Card -->
+                            <div class="bg-white p-6 rounded-lg shadow-lg card-hover-effect cursor-pointer" onclick="navigateTo('modules-page')">
+                                <div class="flex items-center">
+                                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+                                        <i class="fas fa-book-open fa-2x"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-semibold text-gray-900">Learning Modules</h3>
+                                        <p class="text-gray-600 text-sm mt-1">Interactive lessons on various disasters.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Virtual Drills Card -->
+                            <div class="bg-white p-6 rounded-lg shadow-lg card-hover-effect cursor-pointer" onclick="navigateTo('drills-page')">
+                                <div class="flex items-center">
+                                    <div class="bg-green-100 text-green-600 p-3 rounded-full">
+                                        <i class="fas fa-running fa-2x"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-semibold text-gray-900">Virtual Drills</h3>
+                                        <p class="text-gray-600 text-sm mt-1">Test your knowledge in simulated scenarios.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Emergency Contacts Card -->
+                             <div class="bg-white p-6 rounded-lg shadow-lg card-hover-effect">
+                                <div class="flex items-center">
+                                    <div class="bg-red-100 text-red-600 p-3 rounded-full">
+                                        <i class="fas fa-phone-volume fa-2x"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-semibold text-gray-900">Emergency Contacts</h3>
+                                        <p class="text-gray-600 text-sm mt-1">Quick access to essential numbers.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preparedness Score -->
+                        <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-4">Your Preparedness Score</h3>
+                            <div class="relative pt-1">
+                                <div class="flex mb-2 items-center justify-between">
+                                    <div>
+                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
+                                            75% Complete
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="overflow-hidden h-4 mb-4 text-xs flex rounded bg-teal-200">
+                                    <div style="width:75%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">Complete all modules and drills to reach 100%!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== MODULES PAGE ===== -->
+                <div id="modules-page" class="page">
+                    <div class="bg-gray-50 py-10">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <h2 class="text-3xl font-extrabold text-gray-900 text-center">Disaster Education Modules</h2>
+                            <p class="mt-2 text-center text-md text-gray-600">Click on a topic to learn about safety protocols.</p>
+
+                            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+                                <!-- Natural Disasters -->
+                                <div>
+                                    <h3 class="text-2xl font-bold text-blue-700 mb-6 flex items-center"><i class="fas fa-mountain-sun mr-3"></i>Natural Disasters</h3>
+                                    <div class="space-y-4">
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Earthquake')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Earthquake</h4>
+                                            <p class="text-sm text-gray-500">Protocols for seismic events.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Flood')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Flood</h4>
+                                            <p class="text-sm text-gray-500">Safety during inundations.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Landslide')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Landslide</h4>
+                                            <p class="text-sm text-gray-500">Responding to debris flows.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Forest Fire')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Forest Fire</h4>
+                                            <p class="text-sm text-gray-500">Staying safe from wildfires.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Tsunami')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Tsunami</h4>
+                                            <p class="text-sm text-gray-500">Giant wave preparedness.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Man-Made Disasters -->
+                                <div>
+                                    <h3 class="text-2xl font-bold text-red-700 mb-6 flex items-center"><i class="fas fa-industry mr-3"></i>Man-Made Disasters</h3>
+                                    <div class="space-y-4">
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Gas Leak')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Gas Leak</h4>
+                                            <p class="text-sm text-gray-500">Handling industrial or domestic leaks.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Nuclear Accident')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Nuclear Accident</h4>
+                                            <p class="text-sm text-gray-500">Actions during a radiation emergency.</p>
+                                        </div>
+                                        <div class="bg-white p-4 rounded-lg shadow-md card-hover-effect cursor-pointer" onclick="showDisasterDetail('Terrorist Attack')">
+                                            <h4 class="font-semibold text-lg text-gray-800">Terrorist Attack</h4>
+                                            <p class="text-sm text-gray-500">Run, Hide, Fight protocols.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== DISASTER DETAIL PAGE ===== -->
+                <div id="detail-page" class="page">
+                    <div class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                        <button onclick="navigateTo('modules-page')" class="mb-6 text-blue-600 hover:text-blue-800 font-medium text-sm">
+                            <i class="fas fa-arrow-left mr-2"></i>Back to Modules
+                        </button>
+                        <h2 id="disaster-title" class="text-4xl font-extrabold text-gray-900">Disaster Title</h2>
+                        <p id="disaster-subtitle" class="mt-2 text-lg text-gray-600">Subtitle</p>
+
+                        <div id="disaster-content" class="mt-8 space-y-8 prose prose-lg max-w-none">
+                            <!-- Content will be injected by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- ===== VIRTUAL DRILLS PAGE ===== -->
+                 <div id="drills-page" class="page">
+                    <div class="bg-gray-50 py-10">
+                        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h2 class="text-3xl font-extrabold text-gray-900">Virtual Drills</h2>
+                            <p class="mt-2 text-md text-gray-600">Test your preparedness with these interactive scenarios.</p>
+                        </div>
+                        <div class="max-w-2xl mx-auto mt-8 bg-white p-8 rounded-lg shadow-xl">
+                            <div id="drill-start">
+                                <h3 class="text-xl font-bold mb-2">Fire Evacuation Drill</h3>
+                                <p class="text-gray-600 mb-6">This drill will test your knowledge of the correct procedures during a fire alarm in a school building. Are you ready?</p>
+                                <button onclick="startDrill()" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105">
+                                    Start Drill
+                                </button>
+                            </div>
+                            <div id="drill-question" class="hidden">
+                                <p class="text-sm font-semibold text-blue-600 mb-2">Scenario 1 of 3</p>
+                                <p class="text-lg font-medium text-gray-800 mb-6">You are in a classroom and the fire alarm starts ringing. What is your immediate first action?</p>
+                                <div class="space-y-4">
+                                    <button onclick="checkAnswer(false, this)" class="w-full text-left p-4 border rounded-lg hover:bg-gray-100 transition">A. Immediately run out of the classroom.</button>
+                                    <button onclick="checkAnswer(true, this)" class="w-full text-left p-4 border rounded-lg hover:bg-gray-100 transition">B. Feel the classroom door with the back of your hand.</button>
+                                    <button onclick="checkAnswer(false, this)" class="w-full text-left p-4 border rounded-lg hover:bg-gray-100 transition">C. Gather your personal belongings like your backpack.</button>
+                                </div>
+                            </div>
+                            <div id="drill-feedback" class="hidden mt-4 p-4 rounded-md">
+                                <!-- Feedback text will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+                <!-- ===== ADMIN DASHBOARD PAGE ===== -->
+                <div id="admin-dashboard-page" class="page">
+                    <div class="bg-gray-800 text-white py-8">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <h1 class="text-3xl font-bold">Administrator Dashboard</h1>
+                            <p class="mt-1">Campus-wide preparedness overview.</p>
+                        </div>
+                    </div>
+                     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <!-- Preparedness Score Card -->
+                            <div class="bg-white p-5 rounded-lg shadow-lg">
+                                <h4 class="text-gray-500 font-medium">Overall Preparedness</h4>
+                                <p class="text-3xl font-bold text-blue-600">82%</p>
+                                <p class="text-sm text-green-500 flex items-center mt-1"><i class="fas fa-arrow-up mr-1"></i> 5% from last month</p>
+                            </div>
+                             <!-- Drill Participation Card -->
+                            <div class="bg-white p-5 rounded-lg shadow-lg">
+                                <h4 class="text-gray-500 font-medium">Drill Participation</h4>
+                                <p class="text-3xl font-bold text-green-600">95%</p>
+                                <p class="text-sm text-gray-500 mt-1">Last drill: Fire Evacuation</p>
+                            </div>
+                             <!-- Modules Completed Card -->
+                            <div class="bg-white p-5 rounded-lg shadow-lg">
+                                <h4 class="text-gray-500 font-medium">Modules Completed</h4>
+                                <p class="text-3xl font-bold text-purple-600">1,250 / 1,500</p>
+                                <p class="text-sm text-gray-500 mt-1">Students have completed at least one module.</p>
+                            </div>
+                        </div>
+
+                        <!-- Charts -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-lg shadow-lg">
+                                <h3 class="font-semibold mb-4">Module Completion by Disaster Type</h3>
+                                <div class="space-y-3">
+                                    <!-- Earthquake -->
+                                    <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Earthquake</span><span class="text-sm font-medium">90%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div></div>
+                                    </div>
+                                     <!-- Flood -->
+                                    <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Flood</span><span class="text-sm font-medium">85%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-cyan-500 h-2.5 rounded-full" style="width: 85%"></div></div>
+                                    </div>
+                                     <!-- Fire -->
+                                     <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Forest Fire</span><span class="text-sm font-medium">70%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-orange-500 h-2.5 rounded-full" style="width: 70%"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-lg">
+                                <h3 class="font-semibold mb-4">Drill Success Rate</h3>
+                                 <div class="space-y-3">
+                                    <!-- Fire Drill -->
+                                    <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Fire Drill (Sept)</span><span class="text-sm font-medium">92%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-green-600 h-2.5 rounded-full" style="width: 92%"></div></div>
+                                    </div>
+                                     <!-- Earthquake Drill -->
+                                    <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Earthquake Drill (Aug)</span><span class="text-sm font-medium">88%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-green-500 h-2.5 rounded-full" style="width: 88%"></div></div>
+                                    </div>
+                                     <!-- Gas Leak Drill -->
+                                     <div class="w-full">
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Gas Leak Drill (Jul)</span><span class="text-sm font-medium">81%</span></div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: 81%"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // --- DATA STORE for Disaster Details ---
+        const disasterData = {
+            'Earthquake': {
+                subtitle: 'Protocols for handling seismic events and aftershocks.',
+                content: `
+                    <h3 class="font-bold text-xl">Before an Earthquake:</h3>
+                    <ul>
+                        <li>Identify safe spots in each room (under a sturdy table, against an interior wall).</li>
+                        <li>Secure heavy furniture to walls to prevent them from falling.</li>
+                        <li>Prepare an emergency kit with water, food, first aid, and a flashlight.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During an Earthquake:</h3>
+                    <ul>
+                        <li><strong>Drop, Cover, and Hold On.</strong> Get under a sturdy piece of furniture and hold on.</li>
+                        <li>If outdoors, move to an open area away from buildings, trees, and power lines.</li>
+                        <li>Avoid doorways; they are not safer and can cause injury from swinging doors.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After an Earthquake:</h3>
+                    <ul>
+                        <li>Check for injuries and administer first aid.</li>
+                        <li>Be prepared for aftershocks.</li>
+                        <li>Listen to the radio or authorities for the latest emergency information.</li>
+                    </ul>
+                `
+            },
+            'Flood': {
+                subtitle: 'Safety measures before, during, and after a flood.',
+                content: `
+                    <h3 class="font-bold text-xl">Before a Flood:</h3>
+                    <ul>
+                        <li>Know your area's flood risk and evacuation routes.</li>
+                        <li>Move essential items and furniture to higher floors.</li>
+                        <li>Disconnect electrical appliances. Do not touch them if you are wet or standing in water.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During a Flood:</h3>
+                    <ul>
+                        <li>Evacuate immediately if advised. Do not wait.</li>
+                        <li>Do not walk, swim, or drive through floodwaters. Just six inches of moving water can knock you down.</li>
+                        <li>Stay on high ground and wait for assistance.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After a Flood:</h3>
+                    <ul>
+                        <li>Return home only when authorities say it is safe.</li>
+                        <li>Be aware of contamination. Floodwater can pollute water sources.</li>
+                        <li>Clean and disinfect everything that got wet.</li>
+                    </ul>
+                `
+            },
+            'Landslide': {
+                 subtitle: 'Responding to debris flows and unstable ground.',
+                 content: `
+                     <h3 class="font-bold text-xl">Before a Landslide:</h3>
+                    <ul>
+                        <li>Learn about the landslide risk in your area.</li>
+                        <li>Look for warning signs: cracks in the ground, tilting trees, or unusual sounds like rumbling.</li>
+                        <li>Develop an evacuation plan for your family and school.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During a Landslide:</h3>
+                    <ul>
+                        <li>Move away from the path of the landslide quickly.</li>
+                        <li>If escape is not possible, curl into a tight ball and protect your head.</li>
+                        <li>Stay away from river valleys and low-lying areas.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After a Landslide:</h3>
+                    <ul>
+                        <li>Stay away from the slide area. There may be a danger of additional slides.</li>
+                        <li>Check for injured and trapped persons near the slide, without entering the direct slide area.</li>
+                        <li>Listen for the latest emergency information from local authorities.</li>
+                    </ul>
+                 `
+            },
+             'Forest Fire': {
+                 subtitle: 'How to stay safe from wildfires and smoke.',
+                 content: `
+                    <h3 class="font-bold text-xl">Before a Forest Fire:</h3>
+                    <ul>
+                        <li>Create a defensible space around your home by clearing flammable vegetation.</li>
+                        <li>Have an emergency evacuation plan and practice it.</li>
+                        <li>Keep emergency supplies, including N95 masks to protect from smoke.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During a Forest Fire:</h3>
+                    <ul>
+                        <li>Evacuate immediately if told to do so.</li>
+                        <li>If you are trapped, find a body of water like a pond or river to crouch in.</li>
+                        <li>Cover your mouth and nose with a moist cloth to make breathing easier.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After a Forest Fire:</h3>
+                    <ul>
+                        <li>Do not return home until officials declare it is safe.</li>
+                        <li>Check for hot spots or embers that could restart a fire.</li>
+                        <li>Be aware of potential flooding due to loss of vegetation.</li>
+                    </ul>
+                 `
+            },
+            'Tsunami': {
+                subtitle: 'Preparedness for giant waves, typically caused by earthquakes.',
+                content: `
+                    <h3 class="font-bold text-xl">Before a Tsunami:</h3>
+                    <ul>
+                        <li>If you live in a coastal area, know the designated tsunami evacuation routes.</li>
+                        <li>Practice your evacuation route.</li>
+                        <li>Understand the natural warning signs: a strong earthquake, a loud roar from the ocean, or an unusual and sudden fall or rise in sea level.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During a Tsunami Warning:</h3>
+                    <ul>
+                        <li>First, protect yourself from any earthquake. Drop, Cover, and Hold On.</li>
+                        <li>Once the shaking stops, move immediately to higher ground, as far inland as possible.</li>
+                        <li>Do not wait for officials to issue a warning. An earthquake can be a natural warning.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After a Tsunami:</h3>
+                    <ul>
+                        <li>Stay away from the coast until officials declare it safe.</li>
+                        <li>Be aware that more than one wave may be generated and the succeeding one may be larger.</li>
+                        <li>Continue listening to a NOAA Weather Radio or the Coast Guard for updated information.</li>
+                    </ul>
+                `
+            },
+             'Gas Leak': {
+                 subtitle: 'Handling industrial or domestic chemical leaks.',
+                 content: `
+                    <h3 class="font-bold text-xl">Recognizing a Gas Leak:</h3>
+                    <ul>
+                        <li>A distinct "rotten egg" smell.</li>
+                        <li>A hissing or whistling sound near a gas line.</li>
+                        <li>Dead or discolored vegetation in an otherwise green area.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">What to Do:</h3>
+                    <ul>
+                        <li><strong>Do not</strong> operate any electrical switches, appliances, or phones, as this can create a spark.</li>
+                        <li>Evacuate the area immediately. Leave the door open as you exit.</li>
+                        <li>From a safe distance, call your gas utility's emergency number or the fire department.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After Reporting:</h3>
+                    <ul>
+                        <li>Do not return to the building until an official says it's safe.</li>
+                        <li>The utility company will inspect and make the necessary repairs.</li>
+                    </ul>
+                 `
+            },
+             'Nuclear Accident': {
+                 subtitle: 'Actions to take during a radiation emergency.',
+                 content: `
+                     <h3 class="font-bold text-xl">Before a Nuclear Accident:</h3>
+                    <ul>
+                        <li>Identify the best shelter location near your home, school, or workplace. It should be a basement or the middle of a large building.</li>
+                        <li>Build an Emergency Supply Kit.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">During a Nuclear Accident:</h3>
+                    <ul>
+                        <li><strong>Get inside, stay inside, stay tuned.</strong> Go indoors and stay there.</li>
+                        <li>Close and lock all windows and doors. Go to a basement or the center of the building.</li>
+                        <li>Listen to radio, television, or official social media for information and instructions.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">After a Nuclear Accident:</h3>
+                    <ul>
+                        <li>Do not leave your shelter until instructed to do so by authorities.</li>
+                        <li>If you were outside, remove your outer layer of clothing and wash your body to remove contaminants.</li>
+                    </ul>
+                 `
+            },
+             'Terrorist Attack': {
+                 subtitle: 'Effective actions to take to stay safe: Run, Hide, Fight.',
+                 content: `
+                     <h3 class="font-bold text-xl">1. RUN</h3>
+                    <ul>
+                        <li>If there is an accessible escape path, attempt to evacuate.</li>
+                        <li>Evacuate whether others agree to or not.</li>
+                        <li>Leave your belongings behind.</li>
+                        <li>Help others escape, if possible.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">2. HIDE</h3>
+                    <ul>
+                        <li>If evacuation is not possible, find a place to hide.</li>
+                        <li>Lock and/or blockade the door. Silence your cell phone.</li>
+                        <li>Hide behind large objects. Remain very quiet.</li>
+                    </ul>
+                    <h3 class="font-bold text-xl">3. FIGHT</h3>
+                    <ul>
+                        <li>As a last resort, and only when your life is in imminent danger, attempt to disrupt or incapacitate the attacker.</li>
+                        <li>Act with physical aggression. Improvise weapons.</li>
+                        <li>Commit to your actions. Your life depends on it.</li>
+                    </ul>
+                 `
+            }
+        };
+
+
+        // --- Simple SPA (Single Page Application) Router ---
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function navigateTo(pageId) {
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Update active nav link style
+            navLinks.forEach(link => {
+                if (link.getAttribute('onclick').includes(pageId)) {
+                    link.classList.remove('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+                    link.classList.add('border-blue-500', 'text-gray-900');
+                } else {
+                    link.classList.remove('border-blue-500', 'text-gray-900');
+                    link.classList.add('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+                }
+            });
+            window.scrollTo(0,0);
+        }
+
+        function showDisasterDetail(disasterName) {
+            const data = disasterData[disasterName];
+            if (!data) return;
+
+            document.getElementById('disaster-title').textContent = disasterName;
+            document.getElementById('disaster-subtitle').textContent = data.subtitle;
+            document.getElementById('disaster-content').innerHTML = data.content;
+
+            navigateTo('detail-page');
+        }
+
+        // --- Authentication Simulation ---
+        const loginPage = document.getElementById('login-page');
+        const mainContent = document.getElementById('main-content');
+        const adminNavLink = document.getElementById('admin-nav-link');
+
+        function login(role) {
+            loginPage.style.display = 'none';
+            mainContent.style.display = 'block';
+
+            if (role === 'admin') {
+                adminNavLink.style.display = 'inline-flex';
+                navigateTo('admin-dashboard-page');
+            } else {
+                adminNavLink.style.display = 'none';
+                navigateTo('dashboard-page');
+            }
+        }
+        
+        function logout() {
+            mainContent.style.display = 'none';
+            loginPage.style.display = 'block';
+            pages.forEach(p => p.classList.remove('active'));
+            loginPage.classList.add('active');
+        }
+
+        // --- Virtual Drill Logic ---
+        const drillStart = document.getElementById('drill-start');
+        const drillQuestion = document.getElementById('drill-question');
+        const drillFeedback = document.getElementById('drill-feedback');
+        
+        function startDrill() {
+            drillStart.classList.add('hidden');
+            drillQuestion.classList.remove('hidden');
+            drillFeedback.classList.add('hidden');
+            // Reset button styles
+            drillQuestion.querySelectorAll('button').forEach(btn => {
+                btn.className = 'w-full text-left p-4 border rounded-lg hover:bg-gray-100 transition';
+            });
+        }
+
+        function checkAnswer(isCorrect, element) {
+            drillFeedback.classList.remove('hidden');
+            if(isCorrect) {
+                drillFeedback.className = 'mt-4 p-4 rounded-md bg-green-100 text-green-800';
+                drillFeedback.innerHTML = '<p><strong class="font-bold">Correct!</strong> Feeling the door for heat before opening is a crucial step to check for fire on the other side. This prevents you from opening a door into a blaze.</p>';
+                element.className = 'w-full text-left p-4 border-2 border-green-500 bg-green-50 rounded-lg transition';
+            } else {
+                drillFeedback.className = 'mt-4 p-4 rounded-md bg-red-100 text-red-800';
+                drillFeedback.innerHTML = '<p><strong class="font-bold">Incorrect.</strong> The correct first action is to check the door for heat. Running out blindly or gathering belongings could put you in immediate danger.</p>';
+                 element.className = 'w-full text-left p-4 border-2 border-red-500 bg-red-50 rounded-lg transition';
+            }
+
+             setTimeout(() => {
+                drillQuestion.classList.add('hidden');
+                drillStart.classList.remove('hidden');
+                drillFeedback.classList.add('hidden');
+            }, 5000); // Reset drill after 5 seconds
+        }
+
+        // --- Initial Load ---
+        // On initial load, we ensure only the login page is active.
+        // The CSS handles showing the active page. The JS is for state changes.
+    </script>
+
+</body>
+</html>
